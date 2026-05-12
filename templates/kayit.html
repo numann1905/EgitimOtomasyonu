@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Kayıt{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">{{ egitim.baslik }} – Kayıt Formu</h1>
+
+<form method="POST" class="row g-3">
+  <div class="col-12">
+    <label class="form-label">Ad Soyad</label>
+    <input type="text" name="ad_soyad" class="form-control" required />
+  </div>
+  <div class="col-12 col-md-6">
+    <label class="form-label">TC / Öğrenci No</label>
+    <input type="text" name="tc_no" maxlength="11" class="form-control" />
+  </div>
+  <div class="col-12 col-md-6">
+    <label class="form-label">Telefon</label>
+    <input type="text" name="telefon" placeholder="+90..." class="form-control" />
+  </div>
+  <div class="col-12">
+    <label class="form-label">E-posta</label>
+    <input type="email" name="email" class="form-control" />
+  </div>
+  <div class="col-12">
+    <label class="form-label">Not / Açıklama</label>
+    <textarea name="notlar" rows="4" class="form-control" placeholder="Varsa eklemek istediğiniz bilgi..."></textarea>
+  </div>
+  <div class="col-12 d-flex gap-2">
+    <button class="btn btn-success">Kaydı Gönder</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('index') }}">Geri</a>
+  </div>
+</form>
+{% endblock %}

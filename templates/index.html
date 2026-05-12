@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Eğitimler{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Aktif Eğitimler</h1>
+
+{% if egitimler %}
+  <div class="row g-3">
+    {% for e in egitimler %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ e.baslik }}</h5>
+            <p class="card-text mb-1"><span class="badge text-bg-secondary">{{ e.kategori or 'Genel' }}</span></p>
+            <p class="card-text text-muted mb-2">Kontenjan: {{ e.kontenjan or '-' }}</p>
+            <p class="card-text fw-semibold mb-3">Ücret: {{ e.fiyat }} ₺</p>
+            <a class="btn btn-primary w-100" href="{{ url_for('kayit_ol', egitim_id=e.id) }}">Kayıt Ol</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">Şu anda listelenecek eğitim bulunmuyor.</div>
+{% endif %}
+{% endblock %}

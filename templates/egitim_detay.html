@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Katılımcılar{% endblock %}
+{% block content %}
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <h1 class="h5 mb-2">{{ egitim.baslik }}</h1>
+    <div class="text-muted">
+      <span class="me-3"><b>Kategori:</b> {{ egitim.kategori or '-' }}</span>
+      <span class="me-3"><b>Kontenjan:</b> {{ egitim.kontenjan or '-' }}</span>
+      <span><b>Ücret:</b> {{ egitim.fiyat }} ₺</span>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header">Katılımcı Listesi</div>
+  <div class="card-body p-0">
+    {% if kayitlar %}
+      <div class="table-responsive">
+        <table class="table table-striped mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Ad Soyad</th>
+              <th>TC / Öğrenci No</th>
+              <th>Telefon</th>
+              <th>E-posta</th>
+              <th>Not</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for k in kayitlar %}
+            <tr>
+              <td>{{ k.ad_soyad or '' }}</td>
+              <td>{{ k.tc_no or '' }}</td>
+              <td>{{ k.telefon or '' }}</td>
+              <td>{{ k.email or '' }}</td>
+              <td>{{ k.notlar or '' }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="p-3">Bu eğitime henüz kimse kayıt olmadı.</div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="mt-3">
+  <a class="btn btn-outline-secondary" href="{{ url_for('admin') }}">← Admin Paneline Dön</a>
+</div>
+{% endblock %}
