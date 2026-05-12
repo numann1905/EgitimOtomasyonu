@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Kayıt{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">{{ egitim.baslik }} – Kayıt Formu</h1>
+
+<form method="POST" class="row g-3" id="kayitFormu">
+  <div class="col-12">
+    <label class="form-label">Ad Soyad</label>
+    <input type="text" name="ad_soyad" class="form-control" 
+           required onkeypress="return sadeceHarf(event)" />
+  </div>
+
+  <div class="col-12 col-md-6">
+    <label class="form-label">TC / Öğrenci No</label>
+    <input type="text" name="tc_no" maxlength="11" 
+           class="form-control" required onkeypress="return sadeceSayi(event)" />
+  </div>
+
+  <div class="col-12 col-md-6">
+    <label class="form-label">Telefon</label>
+    <input type="text" name="telefon" placeholder="5XXXXXXXXX" 
+           class="form-control" required onkeypress="return sadeceSayi(event)" />
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">E-posta</label>
+    <input type="email" name="email" class="form-control" required />
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">Not / Açıklama</label>
+    <textarea name="notlar" rows="4" class="form-control"></textarea>
+  </div>
+
+  <div class="col-12 d-flex gap-2">
+    <button type="submit" class="btn btn-success">Kaydı Gönder</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('index') }}">Geri</a>
+  </div>
+</form>
+
+<script>
+// Sadece harf girişine izin veren fonksiyon
+function sadeceHarf(evt) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    // Harfler (A-Z, a-z) ve Türkçe karakterler için izin ver
+    // Sayı gelirse (48-57 arası) false döndür ve yazılmasın
+    if (charCode >= 48 && charCode <= 57) {
+        return false;
+    }
+    return true;
+}
+
+// Sadece sayı girişine izin veren fonksiyon
+function sadeceSayi(evt) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    // Eğer basılan tuş 0-9 arasında değilse engelle
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

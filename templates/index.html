@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Egitimler{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between gap-2 align-items-md-center mb-3">
+  <h1 class="h3 mb-0">Aktif Egitimler</h1>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('chatbot') }}">Chatbot</a>
+    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('ogrenci_giris') }}">Ogrenci Girisi</a>
+  </div>
+</div>
+
+{% if egitimler %}
+  <div class="row g-3">
+    {% for e in egitimler %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ e.baslik }}</h5>
+            <p class="card-text mb-1"><span class="badge text-bg-secondary">{{ e.kategori or 'Genel' }}</span></p>
+            <p class="card-text text-muted mb-2">Kontenjan: {{ e.kontenjan or '-' }}</p>
+            <p class="card-text fw-semibold mb-3">Ucret: {{ e.fiyat }} TL</p>
+            <a class="btn btn-primary w-100" href="{{ url_for('kayit_ol', egitim_id=e.id) }}">Kayit Ol</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">Su anda listelenecek egitim bulunmuyor.</div>
+{% endif %}
+{% endblock %}

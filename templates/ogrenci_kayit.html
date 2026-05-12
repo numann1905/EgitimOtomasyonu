@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Ogrenci Kaydi{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h5 mb-3">Ogrenci Kaydi</h1>
+
+        {% if hata %}
+          <div class="alert alert-danger py-2">{{ hata }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('ogrenci_kayit') }}" class="row g-3">
+          <input type="hidden" name="next" value="{{ sonraki_sayfa }}" />
+          <div class="col-12">
+            <label class="form-label">Ad Soyad</label>
+            <input type="text" name="ad_soyad" class="form-control" required />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">TC / Ogrenci No</label>
+            <input type="text" name="tc_no" maxlength="11" class="form-control" required />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Telefon</label>
+            <input type="text" name="telefon" class="form-control" required />
+          </div>
+          <div class="col-12">
+            <label class="form-label">E-posta</label>
+            <input type="email" name="email" class="form-control" required />
+          </div>
+          <div class="col-12 d-grid">
+            <button class="btn btn-success">Kayit Ol ve Devam Et</button>
+          </div>
+        </form>
+
+        <div class="border-top pt-3 mt-3">
+          <a class="btn btn-outline-secondary w-100" href="{{ url_for('ogrenci_giris', next=sonraki_sayfa) }}">
+            Zaten kaydim var
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Giriş{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h5 mb-3">Admin Girişi</h1>
+
+        {% if hata %}
+          <div class="alert alert-danger py-2">{{ hata }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('login') }}" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Kullanıcı Adı</label>
+            <input type="text" name="kullanici_adi" class="form-control" required />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Şifre</label>
+            <input type="password" name="sifre" class="form-control" required />
+          </div>
+          <div class="col-12 d-grid">
+            <button class="btn btn-primary">Giriş Yap</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
