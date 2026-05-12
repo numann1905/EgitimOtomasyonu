@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Ogrenci Paneli{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Ogrenci Paneli</h1>
+  <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('logout') }}">Cikis</a>
+</div>
+
+<div class="row g-3">
+  <div class="col-12 col-lg-5">
+    <div class="card shadow-sm h-100">
+      <div class="card-header">Ogrenci Bilgileri</div>
+      <div class="card-body">
+        <p class="mb-2"><strong>Ad Soyad:</strong> {{ kayit.ad_soyad }}</p>
+        <p class="mb-2"><strong>TC / Ogrenci No:</strong> {{ kayit.tc_no }}</p>
+        <p class="mb-2"><strong>Telefon:</strong> {{ kayit.telefon }}</p>
+        <p class="mb-0"><strong>E-posta:</strong> {{ kayit.email }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-7">
+    <div class="card shadow-sm h-100">
+      <div class="card-header">Kayitli Egitim</div>
+      <div class="card-body">
+        <h2 class="h5">{{ kayit.egitim.baslik }}</h2>
+        <p class="mb-2"><span class="badge text-bg-secondary">{{ kayit.egitim.kategori or 'Genel' }}</span></p>
+        <p class="mb-2"><strong>Kontenjan:</strong> {{ kayit.egitim.kontenjan or '-' }}</p>
+        <p class="mb-2"><strong>Ucret:</strong> {{ kayit.egitim.fiyat }} TL</p>
+        {% if kayit.notlar %}
+          <p class="mb-0"><strong>Not:</strong> {{ kayit.notlar }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
