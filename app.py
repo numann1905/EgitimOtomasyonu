@@ -50,33 +50,56 @@ def index():
     egitimler = Egitim.query.all()
     return render_template('index.html', egitimler=egitimler)
 
-# --- Kayıt sayfası ---
+# --- Kayıt sayfası (DOĞRULAMA EKLENMİŞ HALİ) ---
 @app.route('/kayit_ol/<int:egitim_id>', methods=['GET', 'POST'])
 def kayit_ol(egitim_id):
     egitim = Egitim.query.get_or_404(egitim_id)
 
     if request.method == 'POST':
-        ad_soyad = request.form['ad_soyad']
-        tc_no = request.form.get('tc_no', '')
-        telefon = request.form.get('telefon', '')
-        email = request.form.get('email', '')
-        notlar = request.form.get('notlar', '')
+        ad_soyad = request.form['ad_soyad'].strip()
+        tc_no = request.form.get('tc_no', '').strip()
+        telefon = request.form.get('telefon', '').strip()
+        email = request.form.get('email', '').strip()
+        notlar = request.form.get('notlar', '').strip()
 
-        yeni_kayit = Kayit(
-            ad_soyad=ad_soyad,
-            tc_no=tc_no,
-            telefon=telefon,
-            email=email,
-            notlar=notlar,
-            egitim=egitim
-        )
+        # --- DOĞRULAMALAR (Kritik Kısım) ---
+        
+        # 1. Ad Soyad kontrolü: Sadece harf ve boşluk olmalı (Rakam içermemeli)
+        # replace(' ', '') ile boşlukları temizleyip harf kontrolü yapıyoruz
+        if not ad_soyad.replace(' ', '').isalpha():
+            flash("Ad Soyad sadece harflerden oluşmalıdır.", "danger")
+            return render_template('kayit.html', egitim=egitim)
 
-        db.session.add(yeni_kayit)
-        db.session.commit()
-        return redirect(url_for('index'))
+        # 2. TC Kimlik No kontrolü: Sadece rakam ve tam 11 hane olmalı
+        if not tc_no.isdigit() or len(tc_no) != 11:
+            flash("TC Kimlik No tam 11 haneli bir sayı olmalıdır.", "danger")
+            return render_template('kayit.html', egitim=egitim)
+
+        # 3. Telefon kontrolü: Sadece rakam olmalı
+        if not telefon.isdigit():
+            flash("Telefon numarası sadece rakamlardan oluşmalıdır.", "danger")
+            return render_template('kayit.html', egitim=egitim)
+
+        # Eğer her şey tamamsa kaydı yap
+        try:
+            yeni_kayit = Kayit(
+                ad_soyad=ad_soyad,
+                tc_no=tc_no,
+                telefon=telefon,
+                email=email,
+                notlar=notlar,
+                egitim=egitim
+            )
+            db.session.add(yeni_kayit)
+            db.session.commit()
+            flash("Kaydınız başarıyla alındı!", "success")
+            return redirect(url_for('index'))
+        except Exception as e:
+            db.session.rollback()
+            flash("Kayıt sırasında teknik bir hata oluştu.", "danger")
+            return render_template('kayit.html', egitim=egitim)
 
     return render_template('kayit.html', egitim=egitim)
-
 
 
 # --- Giriş ---

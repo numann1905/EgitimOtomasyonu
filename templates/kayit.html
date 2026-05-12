@@ -3,29 +3,57 @@
 {% block content %}
 <h1 class="h4 mb-3">{{ egitim.baslik }} – Kayıt Formu</h1>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 <form method="POST" class="row g-3">
   <div class="col-12">
     <label class="form-label">Ad Soyad</label>
-    <input type="text" name="ad_soyad" class="form-control" required />
+    <input type="text" name="ad_soyad" class="form-control" 
+           required 
+           pattern="[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+" 
+           title="Lütfen sadece harf giriniz." />
   </div>
+
   <div class="col-12 col-md-6">
     <label class="form-label">TC / Öğrenci No</label>
-    <input type="text" name="tc_no" maxlength="11" class="form-control" />
+    <input type="text" name="tc_no" 
+           maxlength="11" 
+           minlength="11" 
+           pattern="\d{11}" 
+           title="Lütfen 11 haneli bir sayı giriniz."
+           class="form-control" required />
   </div>
+
   <div class="col-12 col-md-6">
     <label class="form-label">Telefon</label>
-    <input type="text" name="telefon" placeholder="+90..." class="form-control" />
+    <input type="text" name="telefon" 
+           placeholder="5XXXXXXXXX" 
+           pattern="\d+" 
+           title="Lütfen sadece rakam giriniz."
+           class="form-control" required />
   </div>
+
   <div class="col-12">
     <label class="form-label">E-posta</label>
-    <input type="email" name="email" class="form-control" />
+    <input type="email" name="email" class="form-control" required />
   </div>
+
   <div class="col-12">
     <label class="form-label">Not / Açıklama</label>
     <textarea name="notlar" rows="4" class="form-control" placeholder="Varsa eklemek istediğiniz bilgi..."></textarea>
   </div>
+
   <div class="col-12 d-flex gap-2">
-    <button class="btn btn-success">Kaydı Gönder</button>
+    <button type="submit" class="btn btn-success">Kaydı Gönder</button>
     <a class="btn btn-outline-secondary" href="{{ url_for('index') }}">Geri</a>
   </div>
 </form>
